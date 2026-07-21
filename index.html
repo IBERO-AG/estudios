@@ -94,9 +94,9 @@
   .hero h1 em{font-style:italic; color:var(--gold-light); font-weight:500;}
   .hero p.lede{max-width:640px; color:#d9d7ce; font-size:16.5px; margin:0 0 34px;}
   .hero-kpis{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); max-width:920px;}
-  .hero-kpi{background:rgba(20,22,26,.72); padding:18px 20px;}
-  .hero-kpi .num{font-family:var(--serif); font-size:30px; color:var(--gold-light); font-weight:600; line-height:1;}
-  .hero-kpi .lab{font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.3px;}
+  .hero-kpi{background:rgba(20,22,26,.72); padding:22px 20px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+  .hero-kpi .num{font-family:var(--serif); font-size:clamp(34px,3.6vw,50px); color:var(--gold-light); font-weight:700; line-height:1;}
+  .hero-kpi .lab{font-size:11.5px; color:var(--muted); margin-top:8px; letter-spacing:.3px; text-align:center;}
 
   /* ---------- Sections ---------- */
   section{padding:88px 40px; max-width:1280px; margin:0 auto;}
@@ -252,6 +252,7 @@
     <a href="#mercado">Mercado nacional</a>
     <a href="#rutas">Rutas de formación</a>
     <a href="#tendencias">Jóvenes &amp; tendencias</a>
+    <a href="#internacional">Internacional</a>
     <a href="#conclusiones">Conclusiones</a>
   </div>
   <div class="gptw">Great Place To Work <b>Certificada 2026–2027</b></div>
@@ -416,10 +417,122 @@
 </div>
 
 <!-- ================= CONCLUSIONES ================= -->
+<!-- ================= ANÁLISIS INTERNACIONAL ================= -->
+<div class="band" id="internacional">
+<section>
+  <div class="section-head fade-up">
+    <div>
+      <span class="section-tag">05 · Análisis internacional</span>
+      <h2>Colombia frente a los referentes internacionales</h2>
+    </div>
+    <p>Contraste entre el estándar nacional descrito en las secciones anteriores y la práctica de programas y acreditadoras internacionales de referencia (AACSB, EQUIS/EFMD, AMBA, y universidades online como ASU, SNHU, FIU).</p>
+  </div>
+
+  <p style="color:#c9c7bf; font-size:13.5px; max-width:920px; margin:0 0 36px; line-height:1.7;">
+    Nota metodológica: los <em>créditos SCT</em> colombianos (1 crédito ≈ 48 horas de trabajo total) y los <em>credit-hours</em> estadounidenses no son directamente equivalentes, por lo que la comparación se hace aquí a nivel de <strong>arquitectura curricular y énfasis</strong>, no de conteo de créditos. El índice de la gráfica siguiente es una lectura editorial de este estudio (escala 1&nbsp;=&nbsp;ausente, 4&nbsp;=&nbsp;institucionalizado), no una métrica oficial de ninguna acreditadora.
+  </p>
+
+  <div class="chart-card fade-up" style="margin-bottom:48px;">
+    <h3>Nivel de institucionalización por eje: Colombia vs. referentes internacionales</h3>
+    <span class="sub">Escala editorial 1–4 (1 = ausente · 2 = parcial/implícito · 3 = explícito · 4 = institucionalizado / criterio de acreditación). Pasa el cursor para enderezar la vista.</span>
+    <div class="chart-3d-wrap"><div class="chart-3d-inner">
+      <canvas id="chartGap" height="300"></canvas>
+      <div class="chart-3d-floor"></div>
+    </div></div>
+  </div>
+
+  <div class="table-wrap fade-up" style="margin-bottom:48px;">
+    <table>
+      <thead>
+        <tr><th>Eje</th><th>Referente internacional</th><th>Situación actual (Colombia / IBERO)</th><th>Brecha</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">IA aplicada a la gestión</td>
+          <td>Framework institucional transversal (p. ej. "Mindful AI Triad" de ASU W. P. Carey: conocimiento de negocio + fluidez en IA + juicio ético), integrado en varias asignaturas y en el capstone.</td>
+          <td>Abordaje indirecto vía Inteligencia de Negocios y Gestión Digital e Innovación, sin un marco institucional nombrado que las articule.</td>
+          <td class="td-dest">No hay un "sello" de IA transversal y evaluable a lo largo del programa, solo asignaturas puntuales.</td>
+        </tr>
+        <tr>
+          <td class="td-name">Sostenibilidad y ESG</td>
+          <td>Criterio formal de acreditación EQUIS/EFMD; escuelas como EADA se posicionan en rankings globales de sostenibilidad (Top 5 mundial).</td>
+          <td>Una asignatura dedicada (ODS y Responsabilidad Social, 2 créditos) más electivas afines (Buen Vivir, Innovación Social).</td>
+          <td class="td-dest">Sostenibilidad tratada como asignatura aislada, no como eje transversal auditable en todo el plan.</td>
+        </tr>
+        <tr>
+          <td class="td-name">Concentración en negocios internacionales</td>
+          <td>Concentraciones dedicadas con práctica real (SNHU, FIU, MSU Mankato: los estudiantes crean una empresa real, obtienen un préstamo y venden productos).</td>
+          <td>Comercio internacional vive en el programa de Administración Logística; Administración de Empresas no tiene una ruta internacional propia.</td>
+          <td class="td-dest">Ausencia de una concentración internacional explícita dentro de Administración de Empresas.</td>
+        </tr>
+        <tr>
+          <td class="td-name">Créditos apilables / microcredenciales</td>
+          <td>Tendencia global 2026: credenciales apilables y modulares que se acumulan hacia el título (Google Career Certificates, badges digitales, NACE: 65% de empleadores ya valoran credenciales por habilidades).</td>
+          <td>Programa monolítico de 8 semestres; el título se obtiene solo al final, sin salidas ni certificaciones intermedias reconocidas externamente.</td>
+          <td class="td-dest">No existe arquitectura de microcredenciales dentro del plan de estudios.</td>
+        </tr>
+        <tr>
+          <td class="td-name">Aprendizaje experiencial distribuido</td>
+          <td>Capstone aplicado a un problema de negocio real desde etapas tempranas (ASU); proyectos que implican operar un negocio real durante la carrera.</td>
+          <td>El componente experiencial se concentra en la Práctica del semestre VIII; antes hay aproximaciones vía Innovación y Negocios I y II.</td>
+          <td class="td-dest">La práctica real llega solo al final, no de forma progresiva desde semestres intermedios.</td>
+        </tr>
+        <tr>
+          <td class="td-name">Acreditación internacional</td>
+          <td>AACSB / EQUIS / AMBA ("triple corona"): estándar de calidad reconocido en más de 1.000 escuelas de negocio en el mundo.</td>
+          <td>Registro calificado y acreditación de Alta Calidad de carácter nacional (CNA/MEN); sin acreditación internacional de programa.</td>
+          <td class="td-dest">Sin hoja de ruta declarada hacia una acreditación internacional (p. ej. ACBSP como paso intermedio realista).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-head fade-up" style="margin-bottom:28px;">
+    <div>
+      <span class="section-tag">Plan de cierre</span>
+      <h2 style="font-size:26px;">Cómo cerrar las brechas dentro del plan de estudios propuesto</h2>
+    </div>
+    <p>Intervenciones dimensionadas para integrarse a la ruta ya existente, sin alterar el total de créditos ni el núcleo común con Administración Logística.</p>
+  </div>
+  <ol class="concl-list fade-up">
+    <li>
+      <div class="concl-num">01</div>
+      <div><h4>Crear un marco propio de IA aplicada, tipo "IBERO AI Fluency"</h4>
+      <p>Articular Gestión Digital e Innovación, Inteligencia de Negocios, Marketing Digital y Operaciones Estratégicas bajo un mismo marco transversal (conocimiento de negocio + fluidez en IA + criterio ético), evaluado con una rúbrica común, replicando la lógica del "Mindful AI Triad" de ASU sin crear asignaturas nuevas.</p></div>
+    </li>
+    <li>
+      <div class="concl-num">02</div>
+      <div><h4>Elevar la sostenibilidad de asignatura a eje transversal</h4>
+      <p>Añadir un checkpoint de sostenibilidad/ESG en 2–3 asignaturas adicionales (p. ej. Gestión Financiera, Pensamiento Estratégico) y usarlo como argumento de cara a una futura acreditación EQUIS o ACBSP.</p></div>
+    </li>
+    <li>
+      <div class="concl-num">03</div>
+      <div><h4>Lanzar una concentración certificable de Negocios Internacionales</h4>
+      <p>Empaquetar una electiva nueva de Negocios Internacionales junto con Habilidades Gerenciales y Negociación y el convenio de doble titulación (Red Planeta Formación y Universidades) como una concentración con nombre propio, visible para el aspirante.</p></div>
+    </li>
+    <li>
+      <div class="concl-num">04</div>
+      <div><h4>Convertir el bloque de electivas y profundizaciones en microcredenciales apilables</h4>
+      <p>Certificar de forma independiente cada una de las 4 rutas de énfasis ya propuestas en este estudio (Analítica y Transformación Digital, Gestión Financiera y de Capitales, Innovación y Emprendimiento, Liderazgo y Talento), de modo que el estudiante obtenga un certificado parcial antes de graduarse.</p></div>
+    </li>
+    <li>
+      <div class="concl-num">05</div>
+      <div><h4>Adelantar un mini-capstone aplicado desde el semestre VI</h4>
+      <p>Antes de la Práctica de octavo semestre, incorporar un proyecto aplicado a una empresa real dentro de Innovación y Negocios II o Pensamiento Estratégico, para distribuir el aprendizaje experiencial a lo largo de la carrera.</p></div>
+    </li>
+    <li>
+      <div class="concl-num">06</div>
+      <div><h4>Definir una hoja de ruta de acreditación internacional a 3–5 años</h4>
+      <p>Priorizar ACBSP como paso intermedio realista frente a la "triple corona" (AACSB/EQUIS/AMBA), usando los ajustes anteriores (IA, sostenibilidad, internacionalización) como evidencia de autoevaluación.</p></div>
+    </li>
+  </ol>
+</section>
+</div>
+
 <section id="conclusiones">
   <div class="section-head fade-up">
     <div>
-      <span class="section-tag">05 · Conclusiones del estudio</span>
+      <span class="section-tag">06 · Conclusiones del estudio</span>
       <h2>Qué debería cambiar en la ruta de formación</h2>
     </div>
     <p>Lectura final para el ejercicio de renovación de registro calificado y refrescamiento curricular.</p>
@@ -622,6 +735,61 @@ function sizeDonutCenter(){
 window.addEventListener('resize', sizeDonutCenter);
 new ResizeObserver(sizeDonutCenter).observe(document.querySelector('.donut-holder'));
 sizeDonutCenter();
+
+/* ---------------- Chart: brechas Nacional vs Internacional ---------------- */
+const gapLabels = ['IA aplicada a la gestión','Sostenibilidad y ESG','Negocios internacionales','Créditos apilables','Aprendizaje experiencial','Acreditación internacional'];
+const gapNacional = [2, 2, 1, 1, 2, 1];
+const gapInternacional = [4, 4, 3, 3, 4, 4];
+new Chart(document.getElementById('chartGap'), {
+  type:'bar',
+  data:{
+    labels: gapLabels,
+    datasets:[
+      {
+        label:'Colombia / IBERO',
+        data: gapNacional,
+        backgroundColor:(ctx)=>{
+          const {chart} = ctx; const {chartArea} = chart;
+          if(!chartArea) return '#6f7275';
+          const g = chart.ctx.createLinearGradient(chartArea.left,0,chartArea.right,0);
+          g.addColorStop(0,'rgba(246,244,239,.10)'); g.addColorStop(1,'rgba(246,244,239,.40)');
+          return g;
+        },
+        borderRadius:5, maxBarThickness:16, barPercentage:.75, categoryPercentage:.72
+      },
+      {
+        label:'Referentes internacionales',
+        data: gapInternacional,
+        backgroundColor:(ctx)=>{
+          const {chart} = ctx; const {chartArea} = chart;
+          if(!chartArea) return '#c9972e';
+          const g = chart.ctx.createLinearGradient(chartArea.left,0,chartArea.right,0);
+          g.addColorStop(0,'#8a6a22'); g.addColorStop(.55,'#c9972e'); g.addColorStop(1,'#f4dda0');
+          return g;
+        },
+        borderRadius:5, maxBarThickness:16, barPercentage:.75, categoryPercentage:.72
+      }
+    ]
+  },
+  options:{
+    indexAxis:'y', responsive:true,
+    animation:{duration:1300, easing:'easeOutQuart'},
+    plugins:{
+      legend:{position:'bottom', labels:{color:'#dedcd4', font:{size:11.5}, boxWidth:12, padding:16}},
+      tooltip:{
+        backgroundColor:'#1d2024', borderColor:'#c9972e', borderWidth:1, padding:12,
+        titleFont:{family:'Manrope', weight:700, size:12.5}, bodyFont:{family:'Manrope', size:12},
+        titleColor:'#f6f4ef', bodyColor:'#e6c878',
+        callbacks:{label:(c)=>' '+c.dataset.label+': '+c.parsed.x+' / 4'}
+      }
+    },
+    scales:{
+      x:{min:0, max:4, ticks:{stepSize:1, color:'#a9acb1', font:{size:10.5}}, grid:{color:'rgba(246,244,239,.07)'}},
+      y:{grid:{display:false}, ticks:{color:'#dedcd4', font:{size:10.5}}}
+    }
+  },
+  plugins:[dropShadowPlugin]
+});
 
 /* ---------------- Table ---------------- */
 const tbody = document.querySelector('#iesTable tbody');
