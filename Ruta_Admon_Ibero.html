@@ -456,22 +456,31 @@ function renderRuta(){
   wrap.innerHTML = '';
 
   originalData.forEach(sem => {
-    const subtotal = sem.courses.reduce((s,c)=> s + (c.elective ? currentElectiveCourse(c.slot).credits : c.credits), 0);
+    // Cursos visibles según el filtro activo
+    const visibleCourses = sem.courses.filter(c => {
+      if(!activeFilter) return true;
+      const compKey = c.elective ? SLOT_COMPONENT[c.slot] : c.comp;
+      return compKey === activeFilter;
+    });
+
+    // Si hay un filtro activo y este semestre no tiene materias de ese componente, se omite por completo
+    if(activeFilter && visibleCourses.length === 0) return;
+
+    const subtotal = visibleCourses.reduce((s,c)=> s + (c.elective ? currentElectiveCourse(c.slot).credits : c.credits), 0);
     const card = document.createElement('div');
     card.className = 'sem-card';
     let rowsHtml = '';
 
-    sem.courses.forEach(c => {
+    visibleCourses.forEach(c => {
       const compKey = c.elective ? SLOT_COMPONENT[c.slot] : c.comp;
       const comp = COMPONENTS[compKey];
-      const dim = activeFilter && compKey !== activeFilter;
 
       if(c.elective){
         const opts = ELECTIVE_OPTIONS[c.slot];
         const current = currentElectiveCourse(c.slot);
         const optionsHtml = opts.map(o => `<option value="${o.code}" ${o.code===current.code?'selected':''}>${o.name} — ${o.code} (${o.credits} créd.)</option>`).join('');
         rowsHtml += `
-          <div class="course-row elective" style="opacity:${dim?0.25:1}">
+          <div class="course-row elective">
             <span class="dot" style="background:${comp.color}"></span>
             <div class="course-main">
               <div class="course-code"><span class="tag">${c.name} · Lista de validación</span></div>
@@ -481,7 +490,7 @@ function renderRuta(){
           </div>`;
       } else {
         rowsHtml += `
-          <div class="course-row" style="opacity:${dim?0.25:1}">
+          <div class="course-row">
             <span class="dot" style="background:${comp.color}"></span>
             <div class="course-main">
               <div class="course-code">${c.code}</div>
@@ -492,14 +501,19 @@ function renderRuta(){
       }
     });
 
+    const totalLabel = activeFilter ? `Subtotal filtrado <b>${subtotal}</b> créd.` : `Subtotal <b>${subtotal}</b> créd.`;
     card.innerHTML = `
       <div class="sem-head bracket">
         <h4>Semestre ${sem.sem}</h4>
-        <div class="sub-total">Subtotal <b>${subtotal}</b> créd.</div>
+        <div class="sub-total">${totalLabel}</div>
       </div>
       ${rowsHtml}`;
     wrap.appendChild(card);
   });
+
+  if(activeFilter && wrap.children.length === 0){
+    wrap.innerHTML = `<p style="color:var(--muted); grid-column:1/-1;">No hay semestres con materias de este componente.</p>`;
+  }
 
   wrap.querySelectorAll('.elective-select').forEach(sel=>{
     sel.addEventListener('change', e=>{
