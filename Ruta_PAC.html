@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruta de Formación · Administración de Empresas Virtual · IBERO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#14161a;
+    --charcoal-2:#1d2024;
+    --panel:#22262b;
+    --panel-2:#282c32;
+    --gray-mid:#4a4a4b;
+    --gold:#c9972e;
+    --gold-light:#e6c878;
+    --gold-dim:rgba(201,151,46,.35);
+    --white:#f6f4ef;
+    --muted:#a9acb1;
+    --line:rgba(246,244,239,.12);
+    --radius:2px;
+    --serif:'Fraunces', serif;
+    --sans:'Manrope', sans-serif;
+
+    /* Paleta de componentes curriculares */
+    --c-fund:#6f9bc4;
+    --c-disc:#c9972e;
+    --c-trans:#9d8bc9;
+    --c-prof:#e3b563;
+    --c-elec:#c97a52;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--charcoal); color:var(--white);
+    font-family:var(--sans); font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold); color:#14161a;}
+  a{color:inherit;}
+
+  .bracket{position:relative;}
+  .bracket::before, .bracket::after{
+    content:""; position:absolute; width:18px; height:18px;
+    border-color:var(--gold); border-style:solid; opacity:.85; pointer-events:none;
+  }
+  .bracket::before{top:-1px; left:-1px; border-width:2px 0 0 2px;}
+  .bracket::after{bottom:-1px; right:-1px; border-width:0 2px 2px 0;}
+
+  /* ---------- Top nav ---------- */
+  .topnav{
+    position:sticky; top:0; z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 40px; background:rgba(20,22,26,.92); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line); gap:24px; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:18px; letter-spacing:.3px;}
+  .brand .mark{width:11px; height:11px; background:var(--gold); transform:rotate(45deg); flex:none;}
+  .brand small{display:block; font-weight:500; font-size:9.5px; letter-spacing:1.6px; color:var(--muted); text-transform:uppercase; margin-top:1px;}
+  .navlinks{display:flex; gap:26px; font-size:12.5px; font-weight:700;}
+  .navlinks a{text-decoration:none; color:var(--muted); letter-spacing:.3px; transition:color .2s;}
+  .navlinks a:hover{color:var(--gold-light);}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:56px 40px 40px; max-width:1280px; margin:0 auto;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px; font-size:11.5px; letter-spacing:2.4px;
+    text-transform:uppercase; color:var(--gold-light); font-weight:700; margin-bottom:18px;
+  }
+  .eyebrow::before{content:""; width:32px; height:1px; background:var(--gold);}
+  .hero h1{
+    font-family:var(--serif); font-weight:600; font-size:clamp(28px,3.6vw,46px);
+    line-height:1.08; margin:0 0 16px; max-width:840px; letter-spacing:-.5px;
+  }
+  .hero h1 em{font-style:italic; color:var(--gold-light); font-weight:500;}
+  .hero p.lede{max-width:680px; color:#d9d7ce; font-size:15.5px; margin:0;}
+
+  /* ---------- Sections ---------- */
+  section{padding:64px 40px; max-width:1280px; margin:0 auto;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:40px; margin-bottom:30px; flex-wrap:wrap;}
+  .section-tag{font-size:11px; letter-spacing:2.2px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:12px; display:block;}
+  .section-head h2{font-family:var(--serif); font-weight:600; font-size:clamp(22px,2.4vw,30px); margin:0; letter-spacing:-.3px;}
+  .section-head p{color:var(--muted); max-width:440px; font-size:13.5px; margin:0;}
+
+  .band{background:var(--charcoal-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+
+  /* ---------- KPI cards ---------- */
+  .grid-4{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-bottom:44px;}
+  @media(max-width:900px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .card{background:var(--panel); border:1px solid var(--line); padding:22px 22px; position:relative;}
+  .card h3{font-size:12.5px; font-weight:700; margin:0 0 8px; color:var(--muted); letter-spacing:.4px; text-transform:uppercase;}
+  .card .big{font-family:var(--serif); font-size:34px; color:var(--gold-light); font-weight:600; line-height:1;}
+  .card .cap{color:var(--muted); font-size:12px; margin-top:8px;}
+
+  /* ---------- Barra segmentada de componentes ---------- */
+  .segbar-wrap{margin-bottom:28px;}
+  .segbar{
+    display:flex; width:100%; height:56px; border:1px solid var(--line); overflow:hidden;
+  }
+  .seg{
+    display:flex; align-items:center; justify-content:center; position:relative; cursor:default;
+    transition:filter .2s, opacity .2s; min-width:0;
+  }
+  .seg:hover{filter:brightness(1.12);}
+  .seg .seg-label{font-size:12px; font-weight:800; color:#14161a; letter-spacing:.2px; white-space:nowrap; padding:0 8px;}
+  .seg.dim{opacity:.25;}
+
+  .comp-cards{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:14px; margin-top:20px;}
+  @media(max-width:1000px){.comp-cards{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .comp-card{
+    background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--dot); padding:16px 16px;
+    cursor:pointer; transition:transform .15s, border-color .15s;
+  }
+  .comp-card:hover{transform:translateY(-2px);}
+  .comp-card.active{border-color:var(--dot);}
+  .comp-card .dot{width:10px; height:10px; border-radius:50%; background:var(--dot); display:inline-block; margin-right:7px;}
+  .comp-card h4{margin:0 0 10px; font-size:12.5px; font-weight:700; color:var(--white); display:flex; align-items:center;}
+  .comp-card .num{font-family:var(--serif); font-size:26px; font-weight:700; color:var(--gold-light);}
+  .comp-card .pct{font-size:12px; color:var(--muted); margin-left:6px;}
+  .comp-card .desc{font-size:11.5px; color:var(--muted); margin-top:8px; line-height:1.4;}
+
+  /* ---------- Filters ---------- */
+  .filters{display:flex; gap:10px; margin:8px 0 26px; flex-wrap:wrap;}
+  .filter-btn{
+    background:transparent; border:1px solid var(--line); color:var(--muted); font-family:var(--sans);
+    font-size:12px; font-weight:700; padding:9px 16px; cursor:pointer; letter-spacing:.2px; transition:.2s;
+    display:flex; align-items:center; gap:8px;
+  }
+  .filter-btn .dot{width:8px; height:8px; border-radius:50%; flex:none;}
+  .filter-btn:hover{border-color:var(--gold-dim); color:var(--white);}
+  .filter-btn.active{background:var(--panel-2); border-color:var(--white); color:var(--white);}
+
+  /* ---------- Semester cards ---------- */
+  .sem-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px;}
+  @media(max-width:900px){.sem-grid{grid-template-columns:1fr;}}
+  .sem-card{background:var(--panel); border:1px solid var(--line); padding:0; overflow:hidden;}
+  .sem-head{
+    display:flex; justify-content:space-between; align-items:center; padding:16px 20px;
+    background:var(--charcoal-2); border-bottom:1px solid var(--line);
+  }
+  .sem-head h4{margin:0; font-family:var(--serif); font-size:17px; font-weight:600;}
+  .sem-head .sub-total{font-size:11.5px; color:var(--muted); letter-spacing:.3px;}
+  .sem-head .sub-total b{color:var(--gold-light); font-family:var(--sans); font-size:13px;}
+
+  .course-row{
+    display:grid; grid-template-columns:14px 1fr 40px auto; gap:12px; align-items:center;
+    padding:12px 20px; border-bottom:1px solid var(--line); transition:opacity .2s;
+  }
+  .course-row:last-child{border-bottom:none;}
+  .course-row.elective{background:rgba(201,151,46,.06);}
+  .course-row .dot{width:9px; height:9px; border-radius:50%; margin-top:1px;}
+  .course-main{min-width:0;}
+  .course-code{font-size:10px; color:var(--muted); letter-spacing:.5px; margin-bottom:2px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .tag{
+    display:inline-block; padding:2px 7px; font-size:9.5px; font-weight:700; letter-spacing:.4px;
+    text-transform:uppercase; border:1px solid var(--gold-dim); color:var(--gold-light); border-radius:1px;
+  }
+  .course-name{font-size:13.5px; color:var(--white); font-weight:600;}
+  .course-credits{
+    text-align:center; font-family:var(--serif); font-size:19px; font-weight:700; color:var(--gold-light);
+  }
+
+  .pac-links{display:flex; flex-direction:column; gap:4px; align-items:flex-end;}
+  .pac-btn{
+    display:inline-flex; align-items:center; gap:5px; white-space:nowrap;
+    background:transparent; border:1px solid var(--gold-dim); color:var(--gold-light);
+    font-family:var(--sans); font-size:10.5px; font-weight:700; letter-spacing:.3px;
+    padding:6px 10px; border-radius:1px; text-decoration:none; transition:.2s;
+  }
+  .pac-btn:hover{background:var(--gold); border-color:var(--gold); color:#14161a;}
+  .pac-btn.unavailable{
+    border-color:var(--line); color:var(--muted); cursor:default; opacity:.55;
+  }
+  .pac-btn.unavailable:hover{background:transparent; color:var(--muted);}
+
+  select.elective-select{
+    width:100%; background:var(--charcoal-2); border:1px solid var(--gold-dim); color:var(--white);
+    font-family:var(--sans); font-size:12.5px; font-weight:600; padding:8px 10px; border-radius:1px; cursor:pointer;
+  }
+  select.elective-select:focus{outline:none; border-color:var(--gold);}
+
+  footer{
+    border-top:1px solid var(--line); padding:32px 40px; max-width:1280px; margin:0 auto;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; color:var(--muted); font-size:12px;
+  }
+  footer .credit-name{color:var(--gold-light); font-weight:700;}
+
+  ::-webkit-scrollbar{width:10px; height:10px;}
+  ::-webkit-scrollbar-track{background:var(--charcoal-2);}
+  ::-webkit-scrollbar-thumb{background:var(--gray-mid); border-radius:6px;}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">
+    <span class="mark"></span>
+    <div>IBERO<small>Ruta de formación vigente · Admón. Empresas Virtual</small></div>
+  </div>
+  <div class="navlinks">
+    <a href="#distribucion">Distribución de créditos</a>
+    <a href="#ruta">Ruta semestre a semestre</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <span class="eyebrow">Estructura curricular vigente</span>
+  <h1>Administración de Empresas — Virtual: <em>cómo está construida hoy la ruta de formación</em></h1>
+  <p class="lede">Vista de referencia de la ruta actualmente vigente del programa (Acta de Homologación), con la distribución real de créditos por componente curricular. Las 4 asignaturas con lista de validación (Electiva profesional I y II, Profundización I y II) son las únicas móviles: puedes seleccionar cualquier opción de su lista sin alterar los <b style="color:var(--white)">143 créditos totales</b>.</p>
+</div>
+
+<section id="distribucion">
+  <div class="grid-4">
+    <div class="card bracket">
+      <h3>Créditos totales</h3>
+      <div class="big">143</div>
+      <div class="cap">8 semestres · dentro del rango de mercado (136–151 créditos).</div>
+    </div>
+    <div class="card bracket">
+      <h3>Asignaturas</h3>
+      <div class="big">53</div>
+      <div class="cap">49 fijas + 4 con lista de validación.</div>
+    </div>
+    <div class="card bracket">
+      <h3>Componentes curriculares</h3>
+      <div class="big">5</div>
+      <div class="cap">Fundamentación, Disciplinar, Transdisciplinar, Profundización, Electivo.</div>
+    </div>
+    <div class="card bracket">
+      <h3>Créditos con lista de validación</h3>
+      <div class="big">10</div>
+      <div class="cap">7% del total — Electivo (4) + Profundización (6).</div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div>
+      <span class="section-tag">Componente curricular</span>
+      <h2>Distribución de los 143 créditos</h2>
+    </div>
+    <p>Clasificación por tipo de componente según la estructura del pénsum. Haz clic en un bloque para resaltarlo en la ruta semestre a semestre.</p>
+  </div>
+
+  <div class="segbar-wrap">
+    <div class="segbar" id="segbar"></div>
+  </div>
+  <div class="comp-cards" id="compCards"></div>
+</section>
+
+<div class="band" id="ruta">
+  <section>
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Pénsum vigente</span>
+        <h2>Ruta de formación, semestre a semestre</h2>
+      </div>
+      <p>Referencia fija salvo las 4 casillas con lista de validación, resaltadas en dorado. Filtra por componente para ver dónde se ubica cada uno dentro de la ruta. Cada materia incluye su Plan Analítico de Curso (PAC) descargable — el de las electivas se actualiza según la opción seleccionada.</p>
+    </div>
+
+    <div class="filters" id="compFilters"></div>
+
+    <div class="sem-grid" id="rutaGrid"></div>
+  </section>
+</div>
+
+<footer>
+  <div>IBERO · Corporación Universitaria Iberoamericana — Planeta Formación y Universidades</div>
+  <div>Ruta de formación vigente, Administración de Empresas — Modalidad Virtual · <span class="credit-name">William Parra</span></div>
+</footer>
+
+<script>
+/* =========================================================
+   COMPONENTES CURRICULARES
+   ========================================================= */
+const COMPONENTS = {
+  fundamentacion:{label:'Fundamentación', color:'var(--c-fund)', desc:'Bases disciplinares comunes (Fundamentos de Administración, Mercadeo, Contabilidad y Economía).'},
+  disciplinar:{label:'Disciplinar', color:'var(--c-disc)', desc:'Núcleo profesional propio de Administración de Empresas, incl. Opción de Grado y Práctica.'},
+  transdisciplinar:{label:'Transdisciplinar', color:'var(--c-trans)', desc:'Cátedras institucionales, competencias comunicativas/digitales/investigativas e inglés.'},
+  profundizacion:{label:'Profundización', color:'var(--c-prof)', desc:'Profundización I y II — lista de validación, mantiene su carácter electivo.'},
+  electivo:{label:'Electivo', color:'var(--c-elec)', desc:'Electiva profesional I y II — lista de validación, mantiene su carácter electivo.'}
+};
+
+// Opciones de lista de validación por casilla (hoja VAL del Excel)
+const ELECTIVE_OPTIONS = {
+  ep1:[
+    {code:'AEV22100', name:'Habilidades Gerenciales y Negociación', credits:2, pac:'PAC/05. V Semestre/Electiva Profesional I (Habilidades Gerenciales y Negociación).pdf'},
+    {code:'AEV22110', name:'Liderazgo', credits:2, pac:'PAC/05. V Semestre/Electiva Profesional I (Desarrollo de Habilidades en Liderázgo y Trabajo en Equipo).pdf'}
+  ],
+  ep2:[
+    {code:'AEV22330', name:'Comportamiento del Consumidor Digital', credits:2, pac:'PAC/08. VIII Semestre/Electiva Profesional II (Comportamiento del Consumidor Digital).pdf'},
+    {code:'AEV22340', name:'Economía Solidaria', credits:2, pac:'PAC/08. VIII Semestre/Electiva Profesional II (Economía Solidaria).pdf'}
+  ],
+  pf1:[
+    {code:'AEV22520', name:'Mercado de Capitales', credits:3, pac:null},
+    {code:'AEV22530', name:'Formulación y Evaluación de Proyectos', credits:3, pac:'PAC/08. VIII Semestre/Profundización I (Formulación y Evaluación de Proyectos).pdf'},
+    {code:'AEV22540', name:'Finanzas Internacionales', credits:3, pac:'PAC/08. VIII Semestre/Profundización I (Finanzas Internacionales).pdf'}
+  ],
+  pf2:[
+    {code:'AEV22450', name:'Pensamiento Disruptivo', credits:3, pac:'PAC/08. VIII Semestre/Profundización II (Pensamiento Disruptivo).pdf'},
+    {code:'AEV22460', name:'Gerencia de mercadeo y publicidad', credits:3, pac:'PAC/08. VIII Semestre/Profundización II (Gerencia de Mercadeo y Publicidad).pdf'}
+  ]
+};
+const SLOT_COMPONENT = { ep1:'electivo', ep2:'electivo', pf1:'profundizacion', pf2:'profundizacion' };
+const DEFAULT_SELECTION = { ep1:'AEV22100', ep2:'AEV22330', pf1:'AEV22530', pf2:'AEV22450' };
+
+// Ruta vigente completa — 8 semestres, 143 créditos
+const originalData = [
+  {sem:'I', courses:[
+    {code:'TRSV22100', name:'Catedra I: Diversidad E Inclusión', credits:2, comp:'transdisciplinar', pac:'PAC/01. I Semestre/Catedra I - Diversidad e Inclusión.pdf'},
+    {code:'AEV22130', name:'Fundamentos de Mercadeo', credits:3, comp:'fundamentacion', pac:'PAC/01. I Semestre/Fundamentos de Mercadeo.pdf'},
+    {code:'TRSV22160', name:'Competencias Comunicativas', credits:2, comp:'transdisciplinar', pac:'PAC/01. I Semestre/Competencias Comunicativas.pdf'},
+    {code:'TRSV22240', name:'Competencias Digitales', credits:3, comp:'transdisciplinar', pac:'PAC/01. I Semestre/Competencias Digitales.pdf'},
+    {code:'TRSV22210', name:'Pensamiento matemático', credits:3, comp:'transdisciplinar', pac:'PAC/01. I Semestre/Pensamiento Matemático.pdf'},
+    {code:'AEV22120', name:'Problemas Sociales y Desarrollo', credits:2, comp:'disciplinar', pac:'PAC/01. I Semestre/Problemas Sociales y Desarrollo.pdf'},
+    {code:'TVE21100', name:'Fundamentos de Administración', credits:3, comp:'fundamentacion', pac:'PAC/01. I Semestre/Fundamentos de Administración.pdf'}
+  ]},
+  {sem:'II', courses:[
+    {code:'TRSV22110', name:'Catedra II: Plan De Vida', credits:2, comp:'transdisciplinar', pac:'PAC/02. II Semestre/Catedra II Plan de Vida.pdf'},
+    {code:'TRSV22220', name:'Matemáticas Básicas', credits:3, comp:'transdisciplinar', pac:'PAC/02. II Semestre/Matemáticas Básicas.pdf'},
+    {code:'TRSV22170', name:'Argumentación y Producción de Textos', credits:2, comp:'transdisciplinar', pac:'PAC/02. II Semestre/Argumentación y producción de Textos.pdf'},
+    {code:'AEV21150', name:'Modelos Organizacionales', credits:3, comp:'disciplinar', pac:'PAC/02. II Semestre/Modelos Organizacionales.pdf'},
+    {code:'TRSV22180', name:'Pensamiento Político y Económico', credits:2, comp:'transdisciplinar', pac:'PAC/02. II Semestre/Pensamiento Político y Económico.pdf'},
+    {code:'TRSV22280', name:'Inglés I', credits:3, comp:'transdisciplinar', pac:'PAC/02. II Semestre/Ingles I.pdf'},
+    {code:'TVE21110', name:'Fundamentos de Contabilidad', credits:3, comp:'fundamentacion', pac:'PAC/02. II Semestre/Fundamentos de Contabilidad.pdf'}
+  ]},
+  {sem:'III', courses:[
+    {code:'TRSV22230', name:'Estadística Descriptiva', credits:3, comp:'transdisciplinar', pac:'PAC/03. III Semestre/Estadística Descriptiva.pdf'},
+    {code:'TRSV22290', name:'Ingles II', credits:3, comp:'transdisciplinar', pac:'PAC/03. III Semestre/Inglés II.pdf'},
+    {code:'AEV21250', name:'Administración Contemporánea', credits:2, comp:'disciplinar', pac:'PAC/03. III Semestre/Administración Contemporanea.pdf'},
+    {code:'TRSV22250', name:'Gestión Digital e Innovación', credits:3, comp:'transdisciplinar', pac:'PAC/03. III Semestre/Gestión Digital e Innovación.pdf'},
+    {code:'TRSV22190', name:'Bioética', credits:2, comp:'transdisciplinar', pac:'PAC/03. III Semestre/Bioética.pdf'},
+    {code:'AEV22250', name:'Innovación Y Negocios I', credits:2, comp:'disciplinar', pac:'PAC/03. III Semestre/Innovación y Negocios I.pdf'},
+    {code:'AEV22240', name:'Investigación De Mercados', credits:3, comp:'disciplinar', pac:'PAC/03. III Semestre/Investigación de Mercados.pdf'}
+  ]},
+  {sem:'IV', courses:[
+    {code:'AEV21350', name:'Costos y Presupuestos', credits:3, comp:'disciplinar', pac:'PAC/04. IV Semestre/Costos y Presupuestos.pdf'},
+    {code:'TRSV22150', name:'Electiva Integral - Buen Vivir', credits:2, comp:'transdisciplinar', pac:'PAC/04. IV Semestre/Electiva Integral Buen Vivir.pdf'},
+    {code:'TRSV22300', name:'Inglés III', credits:3, comp:'transdisciplinar', pac:'PAC/04. IV Semestre/Inglés III.pdf'},
+    {code:'TRSV22200', name:'Finanzas', credits:2, comp:'transdisciplinar', pac:'PAC/04. IV Semestre/Finanzas.pdf'},
+    {code:'AEV22310', name:'Innovación Social', credits:2, comp:'disciplinar', pac:'PAC/04. IV Semestre/Innovación Social.pdf'},
+    {code:'TVE21120', name:'Fundamentos de Economía', credits:3, comp:'fundamentacion', pac:'PAC/04. IV Semestre/Fundamentos de Economía.pdf'},
+    {code:'TRSV22260', name:'Competencias Investigativas', credits:3, comp:'transdisciplinar', pac:'PAC/04. IV Semestre/Competencias Investigativas.pdf'}
+  ]},
+  {sem:'V', courses:[
+    {code:'TRSV22120', name:'Catedra III: Emprendimiento', credits:2, comp:'transdisciplinar', pac:'PAC/05. V Semestre/Catedra III Emprendimiento.pdf'},
+    {code:'TRSV22310', name:'Inglés IV', credits:3, comp:'transdisciplinar', pac:'PAC/05. V Semestre/Inglés IV.pdf'},
+    {code:'AEV22350', name:'Inteligencia De Negocios', credits:3, comp:'disciplinar', pac:'PAC/05. V Semestre/Inteligencia de Negocios.pdf'},
+    {code:'AEV22380', name:'Microeconomía', credits:3, comp:'disciplinar', pac:'PAC/05. V Semestre/Microeconomía.pdf'},
+    {code:'AEV22370', name:'Matemáticas Financieras', credits:3, comp:'disciplinar', pac:'PAC/05. V Semestre/Matemáticas Financieras.pdf'},
+    {code:'__EP1__', name:'Electiva profesional I', credits:2, elective:true, slot:'ep1'},
+    {code:'AEV22360', name:'Investigación De Operaciones', credits:2, comp:'disciplinar', pac:'PAC/05. V Semestre/Investigación de Operaciones.pdf'}
+  ]},
+  {sem:'VI', courses:[
+    {code:'AEV22390', name:'ODS Y Responsabilidad Social', credits:2, comp:'disciplinar', pac:'PAC/06. VI Semestre/ODS y Responsabilidad Social.pdf'},
+    {code:'TRSV22320', name:'Inglés V', credits:3, comp:'transdisciplinar', pac:'PAC/06. VI Semestre/Inglés V.pdf'},
+    {code:'AEV22410', name:'Marketing Digital', credits:3, comp:'disciplinar', pac:'PAC/06. VI Semestre/Marketing Digital.pdf'},
+    {code:'AEV22440', name:'Macroeconomía', credits:3, comp:'disciplinar', pac:'PAC/06. VI Semestre/Macroeconomía.pdf'},
+    {code:'AEV22430', name:'Operaciones Estratégicas', credits:3, comp:'disciplinar', pac:'PAC/06. VI Semestre/Operaciones Estratégicas.pdf'},
+    {code:'AEV22420', name:'Gestión Financiera', credits:3, comp:'disciplinar', pac:'PAC/06. VI Semestre/Gestión Financiera.pdf'}
+  ]},
+  {sem:'VII', courses:[
+    {code:'TRSV22270', name:'Procesos Investigativos', credits:3, comp:'transdisciplinar', pac:'PAC/07. VII Semestre/Procesos Investigativos.pdf'},
+    {code:'TRSV22330', name:'Inglés VI', credits:3, comp:'transdisciplinar', pac:'PAC/07. VII Semestre/Inglés VI.pdf'},
+    {code:'AEV22480', name:'Pensamiento Estratégico', credits:3, comp:'disciplinar', pac:'PAC/07. VII Semestre/Pensamiento Estratégico.pdf'},
+    {code:'AEV22490', name:'Gestión Del Talento Humano', credits:3, comp:'disciplinar', pac:'PAC/07. VII Semestre/Gestión del Talento Humano.pdf'},
+    {code:'AEV22470', name:'Gestión 4G', credits:3, comp:'disciplinar', pac:'PAC/07. VII Semestre/Gestión 4G.pdf'},
+    {code:'AEV22500', name:'Innovación Y Negocios II', credits:3, comp:'disciplinar', pac:'PAC/07. VII Semestre/Innovación y Negocios II.pdf'}
+  ]},
+  {sem:'VIII', courses:[
+    {code:'AEV22510', name:'Emprendimiento E Innovación', credits:3, comp:'disciplinar', pac:'PAC/08. VIII Semestre/Emprendimiento e Innovación II.pdf'},
+    {code:'__EP2__', name:'Electiva profesional II', credits:2, elective:true, slot:'ep2'},
+    {code:'__PF1__', name:'Profundización I', credits:3, elective:true, slot:'pf1'},
+    {code:'__PF2__', name:'Profundización II', credits:3, elective:true, slot:'pf2'},
+    {code:'AEV23100', name:'Opción De Grado', credits:2, comp:'disciplinar', pac:'PAC/08. VIII Semestre/Opción de Grado.pdf', pac2:'PAC/08. VIII Semestre/Opción de Grado II.pdf'},
+    {code:'AEV23150', name:'Práctica', credits:5, comp:'disciplinar', pac:'PAC/08. VIII Semestre/Práctica.pdf'}
+  ]}
+];
+
+let selection = Object.assign({}, DEFAULT_SELECTION);
+let activeFilter = null; // null = todas
+const TOTAL_TARGET = 143;
+
+/* ---------------- Cálculo de créditos por componente (fijo, no depende de la selección) ---------------- */
+function computeComponentTotals(){
+  const totals = {fundamentacion:0, disciplinar:0, transdisciplinar:0, profundizacion:0, electivo:0};
+  originalData.forEach(sem => sem.courses.forEach(c => {
+    if(c.elective){
+      totals[SLOT_COMPONENT[c.slot]] += ELECTIVE_OPTIONS[c.slot][0].credits; // créditos iguales en toda la lista
+    } else {
+      totals[c.comp] += c.credits;
+    }
+  }));
+  return totals;
+}
+
+function currentElectiveCourse(slot){
+  return ELECTIVE_OPTIONS[slot].find(o => o.code === selection[slot]) || ELECTIVE_OPTIONS[slot][0];
+}
+
+function pacLinkHtml(pacPath, courseName, pac2Path){
+  const mk = (path, label) => path
+    ? `<a class="pac-btn" href="${encodeURI(path)}" target="_blank" rel="noopener" title="Descargar PAC de ${courseName}">📄 ${label}</a>`
+    : `<span class="pac-btn unavailable" title="PAC aún no cargado">📄 ${label}</span>`;
+  if(pac2Path){
+    return `<div class="pac-links">${mk(pacPath,'PAC I')}${mk(pac2Path,'PAC II')}</div>`;
+  }
+  return `<div class="pac-links">${mk(pacPath,'PAC')}</div>`;
+}
+
+/* ---------------- Barra segmentada + tarjetas de componente ---------------- */
+function renderDistribucion(){
+  const totals = computeComponentTotals();
+  const bar = document.getElementById('segbar');
+  const cardsWrap = document.getElementById('compCards');
+  bar.innerHTML = '';
+  cardsWrap.innerHTML = '';
+
+  Object.keys(COMPONENTS).forEach(key => {
+    const comp = COMPONENTS[key];
+    const credits = totals[key];
+    const pct = (credits / TOTAL_TARGET) * 100;
+
+    const seg = document.createElement('div');
+    seg.className = 'seg';
+    seg.style.width = pct + '%';
+    seg.style.background = comp.color;
+    seg.dataset.comp = key;
+    seg.innerHTML = pct > 8 ? `<span class="seg-label">${comp.label} · ${pct.toFixed(1)}%</span>` : `<span class="seg-label" title="${comp.label}">${pct.toFixed(0)}%</span>`;
+    bar.appendChild(seg);
+
+    const card = document.createElement('div');
+    card.className = 'comp-card';
+    card.style.setProperty('--dot', comp.color);
+    card.dataset.comp = key;
+    card.innerHTML = `
+      <h4><span class="dot"></span>${comp.label}</h4>
+      <span class="num">${credits}</span><span class="pct">créd. · ${pct.toFixed(1)}%</span>
+      <div class="desc">${comp.desc}</div>`;
+    card.addEventListener('click', () => toggleFilter(key));
+    cardsWrap.appendChild(card);
+  });
+}
+
+/* ---------------- Filtros por componente ---------------- */
+function renderFilters(){
+  const wrap = document.getElementById('compFilters');
+  wrap.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filter-btn' + (activeFilter===null ? ' active' : '');
+  allBtn.textContent = 'Todos los componentes';
+  allBtn.onclick = () => { activeFilter = null; renderFilters(); renderRuta(); syncCompCards(); };
+  wrap.appendChild(allBtn);
+  Object.keys(COMPONENTS).forEach(key => {
+    const comp = COMPONENTS[key];
+    const b = document.createElement('button');
+    b.className = 'filter-btn' + (activeFilter===key ? ' active' : '');
+    b.innerHTML = `<span class="dot" style="background:${comp.color}"></span>${comp.label}`;
+    b.onclick = () => { toggleFilter(key); };
+    wrap.appendChild(b);
+  });
+}
+function toggleFilter(key){
+  activeFilter = (activeFilter === key) ? null : key;
+  renderFilters();
+  renderRuta();
+  syncCompCards();
+  document.getElementById('ruta').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function syncCompCards(){
+  document.querySelectorAll('.comp-card').forEach(card=>{
+    card.classList.toggle('active', card.dataset.comp === activeFilter);
+  });
+}
+
+/* ---------------- Ruta semestre a semestre ---------------- */
+function renderRuta(){
+  const wrap = document.getElementById('rutaGrid');
+  wrap.innerHTML = '';
+
+  originalData.forEach(sem => {
+    // Cursos visibles según el filtro activo
+    const visibleCourses = sem.courses.filter(c => {
+      if(!activeFilter) return true;
+      const compKey = c.elective ? SLOT_COMPONENT[c.slot] : c.comp;
+      return compKey === activeFilter;
+    });
+
+    // Si hay un filtro activo y este semestre no tiene materias de ese componente, se omite por completo
+    if(activeFilter && visibleCourses.length === 0) return;
+
+    const subtotal = visibleCourses.reduce((s,c)=> s + (c.elective ? currentElectiveCourse(c.slot).credits : c.credits), 0);
+    const card = document.createElement('div');
+    card.className = 'sem-card';
+    let rowsHtml = '';
+
+    visibleCourses.forEach(c => {
+      const compKey = c.elective ? SLOT_COMPONENT[c.slot] : c.comp;
+      const comp = COMPONENTS[compKey];
+
+      if(c.elective){
+        const opts = ELECTIVE_OPTIONS[c.slot];
+        const current = currentElectiveCourse(c.slot);
+        const optionsHtml = opts.map(o => `<option value="${o.code}" ${o.code===current.code?'selected':''}>${o.name} — ${o.code} (${o.credits} créd.)</option>`).join('');
+        rowsHtml += `
+          <div class="course-row elective">
+            <span class="dot" style="background:${comp.color}"></span>
+            <div class="course-main">
+              <div class="course-code"><span class="tag">${c.name} · Lista de validación</span></div>
+              <select class="elective-select" data-slot="${c.slot}">${optionsHtml}</select>
+            </div>
+            <div class="course-credits">${current.credits}</div>
+            ${pacLinkHtml(current.pac, current.name)}
+          </div>`;
+      } else {
+        rowsHtml += `
+          <div class="course-row">
+            <span class="dot" style="background:${comp.color}"></span>
+            <div class="course-main">
+              <div class="course-code">${c.code}</div>
+              <div class="course-name">${c.name}</div>
+            </div>
+            <div class="course-credits">${c.credits}</div>
+            ${pacLinkHtml(c.pac, c.name, c.pac2)}
+          </div>`;
+      }
+    });
+
+    const totalLabel = activeFilter ? `Subtotal filtrado <b>${subtotal}</b> créd.` : `Subtotal <b>${subtotal}</b> créd.`;
+    card.innerHTML = `
+      <div class="sem-head bracket">
+        <h4>Semestre ${sem.sem}</h4>
+        <div class="sub-total">${totalLabel}</div>
+      </div>
+      ${rowsHtml}`;
+    wrap.appendChild(card);
+  });
+
+  if(activeFilter && wrap.children.length === 0){
+    wrap.innerHTML = `<p style="color:var(--muted); grid-column:1/-1;">No hay semestres con materias de este componente.</p>`;
+  }
+
+  wrap.querySelectorAll('.elective-select').forEach(sel=>{
+    sel.addEventListener('change', e=>{
+      selection[e.target.dataset.slot] = e.target.value;
+      renderRuta();
+    });
+  });
+}
+
+/* ---------------- Init ---------------- */
+renderDistribucion();
+renderFilters();
+renderRuta();
+</script>
+</body>
+</html>
