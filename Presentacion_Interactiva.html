@@ -124,7 +124,7 @@ h1,h2,h3,h4,p,ol,ul{margin:0;}
 .chart-card{background:var(--panel); border:1px solid var(--line); padding:14px 16px; display:flex; flex-direction:column; min-height:0;}
 .chart-card h3{font-family:var(--serif); font-size:15px; font-weight:600; margin-bottom:2px;}
 .chart-card .sub{color:var(--muted); font-size:10.6px; margin-bottom:8px; display:block;}
-.chart-wrap{flex:1; min-height:0; position:relative;}
+.chart-wrap{flex:1; min-height:0; position:relative; padding:10px 14px;}
 .chart-wrap canvas{max-height:100%;}
 
 .trend-card{background:rgba(34,38,43,.85); border:1px solid var(--line); padding:12px 13px;}
@@ -710,8 +710,8 @@ const barChart = new Chart(document.getElementById('chartCreditos'), {
         const isIbero = creditRows[ctx.dataIndex].institucion.includes('IBERO');
         return isIbero ? '#ffe6ab' : 'rgba(246,244,239,.55)';
       },
-      borderRadius:5, borderSkipped:false, maxBarThickness:20,
-      barPercentage:.82, categoryPercentage:.86
+      borderRadius:5, borderSkipped:false, maxBarThickness:30,
+      barPercentage:.92, categoryPercentage:.94
     }]
   },
   options:{
@@ -721,14 +721,14 @@ const barChart = new Chart(document.getElementById('chartCreditos'), {
       legend:{display:false},
       tooltip:{
         backgroundColor:'#1d2024', borderColor:'#c9972e', borderWidth:1, padding:10,
-        titleFont:{family:'Manrope', weight:700, size:12}, bodyFont:{family:'Manrope', size:11.5},
+        titleFont:{family:'Manrope', weight:700, size:13.5}, bodyFont:{family:'Manrope', size:13},
         titleColor:'#f6f4ef', bodyColor:'#e6c878',
         callbacks:{label:(c)=>' '+c.parsed.x+' créditos totales'}
       }
     },
     scales:{
-      x:{grid:{color:'rgba(246,244,239,.07)'}, ticks:{color:'#a9acb1', font:{size:9.5}}},
-      y:{grid:{display:false}, ticks:{color:'#dedcd4', font:{size:9.5}}}
+      x:{grid:{color:'rgba(246,244,239,.07)'}, ticks:{color:'#a9acb1', font:{size:12}}},
+      y:{grid:{display:false}, ticks:{color:'#dedcd4', font:{size:12}}}
     }
   },
   plugins:[dropShadowPlugin]
@@ -760,7 +760,7 @@ const donutChart = new Chart(document.getElementById('chartModalidad'), {
     cutout:'66%', responsive:true, maintainAspectRatio:false,
     animation:{animateRotate:true, animateScale:true, duration:1100, easing:'easeOutQuart'},
     plugins:{
-      legend:{position:'bottom', labels:{color:'#dedcd4', font:{size:10.5}, boxWidth:9, padding:12}},
+      legend:{position:'bottom', labels:{color:'#dedcd4', font:{size:13}, boxWidth:11, padding:14}},
       tooltip:{
         backgroundColor:'#1d2024', borderColor:'#c9972e', borderWidth:1, padding:10,
         titleFont:{family:'Manrope', weight:700, size:12}, bodyFont:{family:'Manrope', size:11.5},
