@@ -46,7 +46,25 @@ h1,h2,h3,h4,p,ol,ul{margin:0;}
   position:fixed; left:0; top:0; bottom:0; width:250px; z-index:50;
   background:rgba(19,21,25,.88); backdrop-filter:blur(14px);
   border-right:1px solid var(--line); display:flex; flex-direction:column;
+  transition:transform .38s cubic-bezier(.4,0,.2,1);
 }
+body.sidebar-collapsed .sidebar{transform:translateX(-100%);}
+.sidebar-collapse-btn{
+  position:absolute; top:26px; right:-14px; width:28px; height:28px; border-radius:50%;
+  background:var(--charcoal-2); border:1px solid var(--line); color:var(--muted); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:13px; z-index:55;
+  transition:border-color .2s, color .2s; padding:0;
+}
+.sidebar-collapse-btn:hover{border-color:var(--gold); color:var(--gold-light);}
+.sidebar-expand-btn{
+  position:fixed; left:0; top:26px; width:26px; height:40px; border-radius:0 8px 8px 0;
+  background:rgba(19,21,25,.92); backdrop-filter:blur(14px); border:1px solid var(--line); border-left:none;
+  color:var(--gold-light); cursor:pointer; z-index:56; font-size:13px;
+  display:none; align-items:center; justify-content:center;
+  transition:background .2s, width .2s;
+}
+.sidebar-expand-btn:hover{width:32px; background:rgba(34,38,43,.95);}
+body.sidebar-collapsed .sidebar-expand-btn{display:flex;}
 .sidebar-brand{padding:20px 20px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:10px;}
 .sidebar-brand .mark{width:10px; height:10px; background:var(--gold); transform:rotate(45deg); flex:none;}
 .sidebar-brand .txt{font-weight:800; font-size:16px; letter-spacing:.4px;}
@@ -65,7 +83,8 @@ h1,h2,h3,h4,p,ol,ul{margin:0;}
 .sidebar-footer{padding:14px 20px 18px; border-top:1px solid var(--line); font-size:9.4px; color:var(--muted); line-height:1.5;}
 
 /* ============ Main / slides ============ */
-.main{position:absolute; left:250px; right:0; top:0; bottom:0; z-index:10; overflow:hidden;}
+.main{position:absolute; left:250px; right:0; top:0; bottom:0; z-index:10; overflow:hidden; transition:left .38s cubic-bezier(.4,0,.2,1);}
+body.sidebar-collapsed .main{left:0;}
 .slide{
   position:absolute; inset:0; padding:clamp(22px,3.4vh,44px) clamp(30px,3.8vw,68px);
   display:flex; flex-direction:column; opacity:0; visibility:hidden; pointer-events:none;
@@ -273,6 +292,7 @@ tbody tr.ibero-row td{color:var(--white);}
 </div>
 
 <nav class="sidebar">
+  <button class="sidebar-collapse-btn" id="btnCollapseSidebar" title="Ocultar tabla de contenido (H)">&#8249;</button>
   <div class="sidebar-brand">
     <span class="mark"></span>
     <div class="txt">IBERO<small>Planeta Formación y Universidades</small></div>
@@ -281,6 +301,7 @@ tbody tr.ibero-row td{color:var(--white);}
   <div class="sidebar-nav" id="sidebarNav"></div>
   <div class="sidebar-footer">Estudio de mercado &amp; ruta de formación<br>Administración de Empresas — Julio 2026</div>
 </nav>
+<button class="sidebar-expand-btn" id="btnExpandSidebar" title="Mostrar tabla de contenido (H)">&#8250;</button>
 
 <div class="main">
 
@@ -1204,6 +1225,24 @@ document.querySelectorAll('.slide-tabs').forEach(tabBar=>{
       }
     });
   });
+});
+
+/* ================= SIDEBAR COLLAPSE ================= */
+const btnCollapseSidebar = document.getElementById('btnCollapseSidebar');
+const btnExpandSidebar = document.getElementById('btnExpandSidebar');
+function setSidebarCollapsed(collapsed){
+  document.body.classList.toggle('sidebar-collapsed', collapsed);
+}
+btnCollapseSidebar.addEventListener('click', ()=> setSidebarCollapsed(true));
+btnExpandSidebar.addEventListener('click', ()=> setSidebarCollapsed(false));
+
+document.addEventListener('keydown', (e) => {
+  const tag = (e.target && e.target.tagName) || '';
+  if(tag === 'SELECT' || tag === 'INPUT') return;
+  if(e.key.toLowerCase() === 'h'){
+    e.preventDefault();
+    setSidebarCollapsed(!document.body.classList.contains('sidebar-collapsed'));
+  }
 });
 
 /* ================= SLIDE NAVIGATION ================= */
