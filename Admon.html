@@ -238,6 +238,32 @@
 
   .fade-up{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
   .fade-up.in{opacity:1; transform:translateY(0);}
+
+  /* ---------------- Ruta nueva: tabs y selects VAL ---------------- */
+  .rutas-tabs{display:flex; gap:10px; margin-bottom:32px; flex-wrap:wrap;}
+  .rutas-tab-btn{
+    font-family:var(--sans); font-weight:700; font-size:12px; letter-spacing:.6px;
+    text-transform:uppercase; padding:11px 22px; border:1px solid var(--line);
+    background:transparent; color:var(--muted); cursor:pointer; transition:all .25s ease;
+  }
+  .rutas-tab-btn:hover{border-color:var(--gold-dim); color:var(--white);}
+  .rutas-tab-btn.active{background:var(--gold); border-color:var(--gold); color:#14161a;}
+  .rutas-tab-panel{display:none;}
+  .rutas-tab-panel.active{display:block;}
+  .novedad-card{background:rgba(34,38,43,.9); border:1px solid var(--line); border-left:3px solid var(--gold); padding:22px;}
+  .novedad-card h4{margin:0 0 10px; font-size:14.5px; font-family:var(--sans); font-weight:700; color:var(--gold-light);}
+  .novedad-card p{margin:0; color:var(--muted); font-size:12.8px; line-height:1.55;}
+  .chip-val{border-left-style:dashed;}
+  .chip-val-tag{display:block; font-size:8.5px; letter-spacing:.7px; text-transform:uppercase; color:var(--gold-light); font-weight:700; margin-bottom:4px;}
+  .elective-select{
+    width:100%; margin-top:2px; background:var(--charcoal-2); color:var(--white);
+    border:1px solid var(--line); font-family:var(--sans); font-size:9.8px; padding:5px 4px; cursor:pointer;
+    text-overflow:ellipsis;
+  }
+  .elective-select:hover{border-color:var(--gold-dim);}
+  .elective-select:focus{outline:none; border-color:var(--gold);}
+  .val-note{font-size:11.5px; color:var(--muted); margin:0 0 20px; max-width:760px;}
+  .val-note b{color:var(--gold-light);}
 </style>
 </head>
 <body>
@@ -371,23 +397,56 @@
       <span class="section-tag">03 · Rutas de formación</span>
       <h2>Arquitectura curricular comparada</h2>
     </div>
-    <p>Distribución de créditos por componente, para los programas con desglose público completo.</p>
+    <p>Distribución de créditos por componente, y comparación entre el pénsum vigente y la ruta nueva propuesta, resultado de este estudio de mercado.</p>
   </div>
 
-  <div class="chart-card fade-up" style="margin-bottom:56px;">
-    <h3>% de créditos por componente curricular</h3>
-    <span class="sub">IBERO Administración de Empresas vs. IBERO Administración Logística vs. UNAD (único competidor con desglose oficial de obligatorios/electivos).</span>
-    <div id="stackWrap"></div>
+  <div class="rutas-tabs fade-up" id="rutasTabs">
+    <button class="rutas-tab-btn active" data-rtab="vigente" type="button">Pénsum vigente</button>
+    <button class="rutas-tab-btn" data-rtab="nueva" type="button">Ruta nueva propuesta</button>
   </div>
 
-  <div class="section-head fade-up" style="margin-bottom:28px;">
-    <div>
-      <span class="section-tag">Pénsum vigente</span>
-      <h2 style="font-size:26px;">Administración de Empresas – Virtual, semestre a semestre</h2>
+  <div class="rutas-tab-panel active" data-rtab="vigente">
+    <div class="chart-card fade-up" style="margin-bottom:56px;">
+      <h3>% de créditos por componente curricular</h3>
+      <span class="sub">IBERO Administración de Empresas vs. IBERO Administración Logística vs. UNAD (único competidor con desglose oficial de obligatorios/electivos).</span>
+      <div id="stackWrap"></div>
     </div>
+
+    <div class="section-head fade-up" style="margin-bottom:28px;">
+      <div>
+        <span class="section-tag">Pénsum vigente</span>
+        <h2 style="font-size:26px;">Administración de Empresas – Virtual, semestre a semestre</h2>
+      </div>
+    </div>
+    <div class="legend fade-up" id="legendWrap"></div>
+    <div class="sem-grid fade-up" id="semGrid"></div>
   </div>
-  <div class="legend fade-up" id="legendWrap"></div>
-  <div class="sem-grid fade-up" id="semGrid"></div>
+
+  <div class="rutas-tab-panel" data-rtab="nueva">
+    <div class="chart-card fade-up" style="margin-bottom:40px;">
+      <h3>% de créditos por componente curricular — Ruta nueva propuesta</h3>
+      <span class="sub">Nueva malla de 143 créditos y 8 semestres, resultado del acta de homologación: actualiza nombres, contenidos y balance de componentes frente al pénsum vigente.</span>
+      <div id="stackWrapNueva"></div>
+    </div>
+
+    <div class="section-head fade-up" style="margin:0 0 20px;">
+      <div>
+        <span class="section-tag">Qué cambia</span>
+        <h2 style="font-size:22px;">Novedades frente al pénsum vigente</h2>
+      </div>
+    </div>
+    <div class="grid-3 fade-up" id="novedadesGrid" style="margin-bottom:44px;"></div>
+
+    <div class="section-head fade-up" style="margin-bottom:16px;">
+      <div>
+        <span class="section-tag">Ruta nueva propuesta</span>
+        <h2 style="font-size:26px;">Administración de Empresas – Virtual, semestre a semestre (nueva malla)</h2>
+      </div>
+    </div>
+    <p class="val-note fade-up">Las asignaturas marcadas <b>VAL</b> corresponden a casillas de <b>Lista de validación</b> (Electiva profesional I/II y Profundización I/II): el estudiante elige una opción entre varias equivalentes en créditos, por lo que el total del programa no cambia según la selección.</p>
+    <div class="legend fade-up" id="legendWrapNueva"></div>
+    <div class="sem-grid fade-up" id="semGridNueva"></div>
+  </div>
 </section>
 </div>
 
@@ -1008,6 +1067,110 @@ SEC.forEach((s,i)=>{
   secBody.appendChild(tr);
 });
 
+
+/* ======================================================================
+   RUTA NUEVA PROPUESTA — datos tomados de Propuesta_nueva_malla_curricular.xlsx
+   (hoja "Acta de Homologación" + hoja "VAL")
+   ====================================================================== */
+const PENSUM_NUEVA = [{"programa": "Administración de Empresas (Ruta nueva)", "periodo": "I", "codigo": "TRSV22100", "asignatura": "Catedra I: Diversidad e Inclusión", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "I", "codigo": "AEV22130", "asignatura": "Marketing Digital & Consumer Insights", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "I", "codigo": "TRSV22160", "asignatura": "Competencias Comunicativas", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "I", "codigo": "TRSV22240", "asignatura": "Competencias Digitales", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "I", "codigo": "TRSV22210", "asignatura": "Pensamiento matemático", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "I", "codigo": "AEV22120", "asignatura": "Estrategia Corporativa para el Desarrollo Sostenible", "creditos": 2, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "I", "codigo": "TVE21100", "asignatura": "Gestión y Dinámica Organizacional en la Era Digital", "creditos": 3, "componente": "Fundamentación"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "II", "codigo": "TRSV22110", "asignatura": "Catedra II: Plan de Vida", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "II", "codigo": "TRSV22220", "asignatura": "Matemáticas Básicas", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "II", "codigo": "TRSV22170", "asignatura": "Argumentación y Producción de Textos", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "II", "codigo": "AEV21150", "asignatura": "Arquitectura Organizacional en la Era Digital", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "II", "codigo": "TRSV22180", "asignatura": "Pensamiento Político y Económico", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "II", "codigo": "TRSV22280", "asignatura": "Inglés I", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "II", "codigo": "TVE21110", "asignatura": "Análisis Contable y Lectura Financiera del Negocio", "creditos": 3, "componente": "Fundamentación"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "III", "codigo": "TRSV22230", "asignatura": "Estadística Aplicada y Visualización de Datos", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "III", "codigo": "TRSV22290", "asignatura": "Inglés II", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "III", "codigo": "AEV21250", "asignatura": "Management del Siglo XXI y Dinámicas Emergentes", "creditos": 2, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "III", "codigo": "TRSV22250", "asignatura": "Gestión de la Innovación y Ecosistemas Digitales", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "III", "codigo": "TRSV22190", "asignatura": "Bioética", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "III", "codigo": "AEV22250", "asignatura": "Diseño de Modelos de Negocio e Innovación", "creditos": 2, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "III", "codigo": "AEV22240", "asignatura": "Inteligencia de Mercados y Consumer Insights", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "IV", "codigo": "AEV21350", "asignatura": "Gestión de Costos y Planeación Presupuestal", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "IV", "codigo": "TRSV22150", "asignatura": "Electiva Integral - Buen Vivir", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "IV", "codigo": "TRSV22300", "asignatura": "Inglés III", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "IV", "codigo": "TRSV22200", "asignatura": "Finanzas", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "IV", "codigo": "AEV22310", "asignatura": "Innovación Social y Negocios Inclusivos", "creditos": 2, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "IV", "codigo": "TVE21120", "asignatura": "Economía y Contexto Empresarial Global", "creditos": 3, "componente": "Fundamentación"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "IV", "codigo": "TRSV22260", "asignatura": "Competencias Investigativas", "creditos": 3, "componente": "Investigación"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "V", "codigo": "TRSV22120", "asignatura": "Catedra III: Emprendimiento", "creditos": 2, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "V", "codigo": "TRSV22310", "asignatura": "Inglés IV", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "V", "codigo": "AEV22350", "asignatura": "Inteligencia De Negocios", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "V", "codigo": "AEV22380", "asignatura": "Microeconomía Estratégica y Competencia", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "V", "codigo": "AEV22370", "asignatura": "Matemáticas Financieras para la Toma de Decisiones", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "V", "codigo": "__EP1__", "asignatura": "Electiva profesional I", "creditos": 2, "componente": "Electivos", "val": "ep1"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "V", "codigo": "AEV22360", "asignatura": "Investigación de Operaciones y Modelación de Decisiones", "creditos": 2, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VI", "codigo": "AEV22390", "asignatura": "Estrategia Empresarial, ODS y Sostenibilidad", "creditos": 2, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VI", "codigo": "TRSV22320", "asignatura": "Inglés V", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VI", "codigo": "AEV22410", "asignatura": "Marketing Digital y Analítica Web", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VI", "codigo": "AEV22440", "asignatura": "Análisis Macroeconómico y Coyuntura Empresarial", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VI", "codigo": "AEV22430", "asignatura": "Operaciones Estratégicas y Gestión de la Cadena de Valor", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VI", "codigo": "AEV22420", "asignatura": "Gestión Financiera Gerencial", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VII", "codigo": "TRSV22270", "asignatura": "Procesos Investigativos", "creditos": 3, "componente": "Investigación"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VII", "codigo": "TRSV22330", "asignatura": "Inglés VI", "creditos": 3, "componente": "Transversal"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VII", "codigo": "AEV22480", "asignatura": "Estrategia Empresarial y Visión Directiva", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VII", "codigo": "AEV22490", "asignatura": "Estrategia del Capital Humano y Cultura Organizacional", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VII", "codigo": "AEV22470", "asignatura": "Gestión Empresarial en la Industria 4.0", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VII", "codigo": "AEV22500", "asignatura": "Diseño y Escalabilidad de Modelos de Negocio", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VIII", "codigo": "AEV22510", "asignatura": "Emprendimiento, Sostenibilidad e Innovación", "creditos": 3, "componente": "Disciplinar"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VIII", "codigo": "__EP2__", "asignatura": "Electiva profesional II", "creditos": 2, "componente": "Electivos", "val": "ep2"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VIII", "codigo": "__PF1__", "asignatura": "Profundización I", "creditos": 3, "componente": "Profundización", "val": "pf1"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VIII", "codigo": "__PF2__", "asignatura": "Profundización II", "creditos": 3, "componente": "Profundización", "val": "pf2"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VIII", "codigo": "AEV23100", "asignatura": "Opción de Grado", "creditos": 2, "componente": "Grado/Práctica"}, {"programa": "Administración de Empresas (Ruta nueva)", "periodo": "VIII", "codigo": "AEV23150", "asignatura": "Práctica", "creditos": 5, "componente": "Grado/Práctica"}];
+const VAL_OPTIONS = {"ep1": [{"code": "AEV22100", "name": "Habilidades Gerenciales y Negociación", "credits": 2}, {"code": "AEV22110", "name": "Liderazgo", "credits": 2}], "ep2": [{"code": "AEV22330", "name": "Comportamiento del Consumidor Digital", "credits": 2}, {"code": "AEV22340", "name": "Economía Solidaria", "credits": 2}], "pf1": [{"code": "AEV22520", "name": "Mercado de Capitales", "credits": 3}, {"code": "AEV22530", "name": "Formulación y Evaluación de Proyectos", "credits": 3}, {"code": "AEV22540", "name": "Finanzas Internacionales", "credits": 3}], "pf2": [{"code": "AEV22450", "name": "Pensamiento Disruptivo", "credits": 3}, {"code": "AEV22460", "name": "Gerencia de Mercadeo y Publicidad", "credits": 3}]};
+const VAL_DEFAULT = {"ep1": "AEV22100", "ep2": "AEV22330", "pf1": "AEV22530", "pf2": "AEV22450"};
+const ARCH_NUEVA = [{"name": "Transversal", "val": 51, "pct": 35.7}, {"name": "Investigación", "val": 6, "pct": 4.2}, {"name": "Fundamentación", "val": 9, "pct": 6.3}, {"name": "Disciplinar", "val": 60, "pct": 42.0}, {"name": "Electivos", "val": 4, "pct": 2.8}, {"name": "Profundización", "val": 6, "pct": 4.2}, {"name": "Grado/Práctica", "val": 7, "pct": 4.9}];
+const NOVEDADES_NUEVA = [{"t": "Más carga disciplinar aplicada", "d": "El componente Disciplinar sube de 51 a 60 créditos (35,7% → 42,0%): más cursos de analítica, mercadeo digital, finanzas gerenciales y estrategia aplicada, y menos peso relativo de la fundamentación conceptual."}, {"t": "Asignaturas renombradas y actualizadas", "d": "Cursos base como “Fundamentos de Mercadeo” o “Modelos Organizacionales” pasan a “Marketing Digital & Consumer Insights” y “Arquitectura Organizacional en la Era Digital”, con enfoque en datos, IA y transformación digital."}, {"t": "Mismas 4 casillas VAL, mismas opciones", "d": "Electiva profesional I/II y Profundización I/II conservan exactamente las mismas opciones y créditos de la lista de validación vigente — el cambio de malla no afecta la libertad de elección del estudiante."}];
+let valSelection = Object.assign({}, VAL_DEFAULT);
+
+function valCurrent(slot){
+  return VAL_OPTIONS[slot].find(o => o.code === valSelection[slot]) || VAL_OPTIONS[slot][0];
+}
+
+/* ---- Tabs Pénsum vigente / Ruta nueva ---- */
+document.querySelectorAll('.rutas-tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.rutas-tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.rutas-tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.rutas-tab-panel[data-rtab="${btn.dataset.rtab}"]`).classList.add('active');
+  });
+});
+
+/* ---- Stacked architecture bar: ruta nueva ---- */
+const stackWrapNueva = document.getElementById('stackWrapNueva');
+(function renderStackNueva(){
+  const total = ARCH_NUEVA.reduce((s,x)=>s+x.val,0);
+  const wrap = document.createElement('div'); wrap.className='stack-row';
+  wrap.innerHTML = `<div class="stack-label"><span>IBERO · Admón. de Empresas — Ruta nueva</span><span>${total} créditos totales</span></div>`;
+  const bar = document.createElement('div'); bar.className='stack-bar';
+  ARCH_NUEVA.forEach(s=>{
+    if(s.pct<=0) return;
+    const seg = document.createElement('div');
+    seg.className='stack-seg';
+    seg.style.width = s.pct+'%';
+    seg.style.background = segColors[s.name] || '#4a4a4b';
+    seg.title = s.name+': '+s.val+' créd. ('+s.pct+'%)';
+    seg.textContent = s.pct>=7 ? s.pct+'%' : '';
+    bar.appendChild(seg);
+  });
+  wrap.appendChild(bar);
+  stackWrapNueva.appendChild(wrap);
+})();
+
+/* ---- Novedades ---- */
+(function renderNovedades(){
+  const grid = document.getElementById('novedadesGrid');
+  NOVEDADES_NUEVA.forEach(n=>{
+    const card = document.createElement('div'); card.className='novedad-card';
+    card.innerHTML = `<h4>${n.t}</h4><p>${n.d}</p>`;
+    grid.appendChild(card);
+  });
+})();
+
+/* ---- Legend: ruta nueva (mismas categorías y colores) ---- */
+(function renderLegendNueva(){
+  const legendWrapNueva = document.getElementById('legendWrapNueva');
+  ["Transversal", "Investigación", "Fundamentación", "Disciplinar", "Electivos", "Profundización", "Grado/Práctica"].forEach(name=>{
+    const color = COMP_COLORS[name] || '#4a4a4b';
+    const it = document.createElement('div'); it.className='legend-item';
+    it.innerHTML = `<span class="legend-sw" style="background:${color}"></span>${name}`;
+    legendWrapNueva.appendChild(it);
+  });
+})();
+
+/* ---- Semester grid: ruta nueva, con selects VAL interactivos ---- */
+function renderSemGridNueva(){
+  const semGridNueva = document.getElementById('semGridNueva');
+  semGridNueva.innerHTML = '';
+  const periods = ['I','II','III','IV','V','VI','VII','VIII'];
+  periods.forEach(per=>{
+    const col = document.createElement('div'); col.className='sem-col';
+    const asignaturas = PENSUM_NUEVA.filter(a=>a.periodo===per);
+    const total = asignaturas.reduce((s,a)=> s + (a.val ? valCurrent(a.val).credits : a.creditos), 0);
+    col.innerHTML = `<div class="sem-head">${per}<div style="font-size:10px;color:var(--muted);font-family:var(--sans);font-weight:600;">${total} cr.</div></div>`;
+    const body = document.createElement('div'); body.className='sem-body';
+    asignaturas.forEach(a=>{
+      const chip = document.createElement('div');
+      chip.className = 'chip' + (a.val ? ' chip-val' : '');
+      chip.style.borderLeftColor = COMP_COLORS[a.componente] || '#4a4a4b';
+      if(a.val){
+        const opts = VAL_OPTIONS[a.val];
+        const current = valCurrent(a.val);
+        const optionsHtml = opts.map(o => `<option value="${o.code}" ${o.code===current.code?'selected':''}>${o.name} (${o.credits}cr)</option>`).join('');
+        chip.innerHTML = `<span class="chip-val-tag">${a.asignatura} · VAL</span><select class="elective-select" data-slot="${a.val}">${optionsHtml}</select><span class="cr">${current.credits}cr</span>`;
+      } else {
+        chip.innerHTML = `${a.asignatura}<span class="cr">${a.creditos}cr</span>`;
+      }
+      body.appendChild(chip);
+    });
+    col.appendChild(body);
+    semGridNueva.appendChild(col);
+  });
+  semGridNueva.querySelectorAll('.elective-select').forEach(sel=>{
+    sel.addEventListener('change', e=>{
+      valSelection[e.target.dataset.slot] = e.target.value;
+      renderSemGridNueva();
+    });
+  });
+}
+renderSemGridNueva();
 </script>
 </body>
 </html>
